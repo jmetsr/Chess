@@ -14,7 +14,6 @@ class SlidingPiece < Piece
       valid = true
       while valid
         new_pos = take_step(curr_pos,step)
-        p dir_moves
         if self.board.on_board?(new_pos) && self.board[dir_moves.last] == nil
           dir_moves << new_pos
           curr_pos = new_pos

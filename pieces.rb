@@ -15,8 +15,8 @@ class King < SteppingPiece
     [-1,1],
   ]
 
-  def move_dirs
-    MOVE_DIRS
+  def symbol
+    self.color == 'w' ? "\u2654" : "\u265A"
   end
 
 end
@@ -34,8 +34,8 @@ class Queen < SlidingPiece
     [-1,1],
   ]
 
-  def move_dirs
-    MOVE_DIRS
+  def symbol
+    self.color == 'w' ? "\u2655" : "\u265B"
   end
 
 end
@@ -49,8 +49,8 @@ class Rook < SlidingPiece
     [-1,0]
   ]
 
-  def move_dirs
-    MOVE_DIRS
+  def symbol
+    self.color == 'w' ? "\u2656" : "\u265C"
   end
 
 end
@@ -64,8 +64,8 @@ class Bishop < SlidingPiece
     [-1,1],
   ]
 
-  def move_dirs
-    MOVE_DIRS
+  def symbol
+    self.color == 'w' ? "\u2657" : "\u265D"
   end
 
 end
@@ -83,8 +83,8 @@ class Knight < SteppingPiece
     [-1,2]
   ]
 
-  def move_dirs
-    MOVE_DIRS
+  def symbol
+    self.color == 'w' ? "\u2658" : "\u265E"
   end
 
 end
