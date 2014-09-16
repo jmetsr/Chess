@@ -1,3 +1,5 @@
+require_relative 'pieces'
+
 class Board
 
   attr_reader :board
@@ -25,12 +27,14 @@ class Board
     unless end_pos_object.nil? || end_pos_object.color != piece.color
       raise ArgumentError.new "Invalid end position #{end_pos}"
     end
-
-    #piece.moves => [valid positions]
-    #[valid pos].include end_pos
+    #checking pieces move method for array of valid moves
+    move_is_valid = piece.moves.include?(end_pos)
+    unless move_is_valid
+      raise ArgumentError.new "Your piece cannot move like that"
+    end
     #update board
-      #self[start_Pos] = nil
-      #self[end_pos] = piece
+    self[start_pos] = nil
+    self[end_pos] = piece
   end
 
   def on_board?(pos)
@@ -38,7 +42,7 @@ class Board
   end
 
   def [](pos)
-    @board[pos[0]][pos[1]]
+    @board[pos[0]][pos[1]] unless pos.nil?
   end
 
   def []=(pos,object)
