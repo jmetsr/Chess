@@ -5,8 +5,12 @@ class SteppingPiece < Piece
   def moves
     moves = []
     curr_pos = self.position
-
-    self.move_dirs.each { |step| moves << take_step(curr_pos, step) }
+    #puts "current position: #{curr_pos}"
+    self.move_dirs.each { |step|
+      moves << take_step(curr_pos, step)
+      #puts "take step #{step} gets me to #{take_step(curr_pos,step)}"
+      #puts "possible moves: #{moves}"
+    }
 
     moves = moves.select { |new_pos| self.board.on_board?(new_pos) }
 

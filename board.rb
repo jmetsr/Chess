@@ -51,7 +51,8 @@ class Board
       raise ArgumentError.new "Invalid end position #{end_pos}"
     end
     #checking pieces move method for array of valid moves
-    move_is_valid = piece.valid_moves.include?(end_pos)
+    piece.valid_moves.nil? ? move_is_valid = false : move_is_valid = piece.valid_moves.include?(end_pos)
+    #move_is_valid = piece.valid_moves.include?(end_pos) unless valid_moves.nil?
     unless move_is_valid
       raise ArgumentError.new "Your piece cannot move like that"
     end
@@ -79,6 +80,30 @@ class Board
 
     pieces.each { |piece| in_check = true if piece.moves.include?(king_pos) }
     in_check
+  end
+
+  def checkmate?(color)
+    #if player is in check
+   # p board.flatten.select { |piece| !piece.nil? && piece.color == color }. map {|piece| piece.class }
+  #  board.flatten.select { |piece| !piece.nil? && piece.color == color }.each do | piece |
+      #puts "#{piece.class}: #{piece.valid_moves}, #{piece.valid_moves.empty?}"
+  #  end
+
+    in_check?(color) &&
+    #and player has no valid moves
+    board.flatten.select { |piece| !piece.nil? && piece.color == color }.all? do | piece |
+      piece.valid_moves.empty?
+    end
+
+  end
+
+  def stalemate?(turn_color)
+    #if player is not in check
+    !in_check?(turn_color) &&
+    #and player has no valid moves
+    board.flatten.select { |piece| !piece.nil? && piece.color == turn_color }.all? do | piece |
+      piece.valid_moves.empty?
+    end
   end
 
   def render
