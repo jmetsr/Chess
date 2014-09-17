@@ -67,11 +67,12 @@ class Board
   end
 
   def in_check?(color)
+    in_check = false
     pieces = board.flatten.select { |el| !el.nil? }
     color == 'w' ? king_pos = @wk.position : king_pos = @bk.position
 
-    pieces.each { |piece| return true if piece.moves}
-
+    pieces.each { |piece| in_check = true if piece.moves.include?(king_pos) }
+    in_check
   end
 
   def render
