@@ -1,3 +1,4 @@
+# coding: utf-8
 
 require_relative 'stepping_piece'
 require_relative 'sliding_piece'
@@ -73,14 +74,14 @@ end
 class Knight < SteppingPiece
 
   MOVE_DIRS = [
-    [1,2],
-    [2,1],
-    [2,-1],
-    [1,-2],
-    [-1,-2],
-    [-2,-1],
-    [-2,1],
-    [-1,2]
+    [ 1,  2],
+    [ 2,  1],
+    [ 2, -1],
+    [ 1, -2],
+    [-1, -2],
+    [-2, -1],
+    [-2,  1],
+    [-1,  2]
   ]
 
   def symbol

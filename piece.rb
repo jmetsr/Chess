@@ -19,12 +19,8 @@ class Piece
     self.class::MOVE_DIRS
   end
 
-  def piece_dup(new_board)
-    new_piece = self.dup
-    #dup piece position
-    new_piece.position = self.position.dup
-    #set piece boards to duped board
-    new_piece.board = new_board
+  def dup(piece_class, new_board)
+    new_piece = piece_class.new(self.position.dup, self.color, new_board)
 
     new_piece
   end
@@ -36,7 +32,7 @@ class Piece
     #puts "all moves on the board: #{valid_moves}"
     #remove moves that put player in check
     valid_mvs = valid_mvs.select do |move|
-      dupped_board = board.chess_dup
+      dupped_board = board.dup
       dupped_board.take_move(self.position,move,dupped_board[self.position])
       !dupped_board.in_check?(self.color)
     end

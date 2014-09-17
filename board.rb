@@ -7,14 +7,15 @@ class Board
   positions = []
   # cycles through rows 0,1,6,7 and creates array of positions of those rows
   [0,1,6,7].each do |row|
-    positions += Array.new(8){Array.new(1,row)}.map.with_index{|el,index|el<<index}
+    positions += Array.new(8) { Array.new(1,row) }.map.with_index{ |el,index|el<<index }
   end
   #simplify creation of starting pieces by using arrays of constants
   POSITIONS = positions
   COLORS = Array.new(16,"w") + Array.new(16,"b")
   PIECE_CLASSES = pieces + Array.new(8,Pawn) + Array.new(8,Pawn) + pieces
 
-  attr_accessor :board, :wk, :bk
+  attr_reader :board
+  attr_accessor :wk, :bk
 
   def self.create_board
     Array.new(8) { Array.new(8,nil) }
@@ -30,9 +31,9 @@ class Board
     end
   end
 
-  def initialize
+  def initialize(setup_pieces = true)
     @board = Board.create_board
-    create_pieces
+    create_pieces if setup_pieces
   end
 
   def move(start_pos,end_pos)
@@ -78,20 +79,17 @@ class Board
     pieces = board.flatten.select { |el| !el.nil? }
     color == 'w' ? king_pos = @wk.position : king_pos = @bk.position
 
-    pieces.each { |piece| in_check = true if piece.moves.include?(king_pos) }
+    pieces.each do |piece|
+      in_check = true if piece.moves.include?(king_pos)
+    end
     in_check
   end
 
   def checkmate?(color)
-    #if player is in check
-   # p board.flatten.select { |piece| !piece.nil? && piece.color == color }. map {|piece| piece.class }
-  #  board.flatten.select { |piece| !piece.nil? && piece.color == color }.each do | piece |
-      #puts "#{piece.class}: #{piece.valid_moves}, #{piece.valid_moves.empty?}"
-  #  end
-
     in_check?(color) &&
     #and player has no valid moves
-    board.flatten.select { |piece| !piece.nil? && piece.color == color }.all? do | piece |
+    board.flatten.select { |piece| !piece.nil? && piece.color == color
+    }.all? do | piece |
       piece.valid_moves.empty?
     end
 
@@ -101,34 +99,28 @@ class Board
     #if player is not in check
     !in_check?(turn_color) &&
     #and player has no valid moves
-    board.flatten.select { |piece| !piece.nil? && piece.color == turn_color }.all? do | piece |
+    board.flatten.compact.select { |piece| piece.color == turn_color }.all? do | piece |
       piece.valid_moves.empty?
     end
+
   end
 
-  def render
-    puts "  " + (0..7).to_a.join("  ")
-    board.each_with_index do |row,indx|
-      puts "#{indx} " + row.map { |cell|
-        cell.nil? ? '_' : cell.symbol
-      }.join("  ")
+  def to_s
+    top_row = "  " + ('a'..'h').to_a.join("  ") +"\n"
+    rows = ""
+    board.each_with_index do |row, indx|
+      index = "#{ indx + 1 } "
+      row_string = row.map { |cell| cell.nil? ? '-' : cell.symbol }.join("  ")
+      rows += index + row_string + "\n"
     end
-    nil
+    top_row + rows
   end
 
-  def chess_dup
-    new_board = self.dup #dup board object
-    #dup board instance variable (Array of Arrays of pieces objects)
-    new_board.board = self.board.dup
-    new_board.board = new_board.board.map { |row| row.dup }
+  def dup
+    new_board = Board.new(false) #Create new board, do not add pieces
     #dup pieces objects (flatten array, and dup each element)
-    new_board.board.flatten.each do |piece|
-      unless piece.nil?
-        new_piece = piece.piece_dup(new_board) #dup pieces, positions, board
-        new_board[piece.position] = new_piece
-      end
-    end
-    #dup wk and bk
+    self.board.flatten.compact.each { |piece| piece.dup(piece.class, new_board) }
+    #dup white king and black king (to use later in #checkmate?)
     new_board.wk = new_board[wk.position]
     new_board.bk = new_board[bk.position]
 
