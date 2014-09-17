@@ -14,7 +14,7 @@ class Board
   COLORS = Array.new(16,"w") + Array.new(16,"b")
   PIECE_CLASSES = pieces + Array.new(8,Pawn) + Array.new(8,Pawn) + pieces
 
-  attr_reader :board
+  attr_reader :board, :wk, :bk
 
   def self.create_board
     Array.new(8) { Array.new(8,nil) }
@@ -22,7 +22,11 @@ class Board
 
   def create_pieces
     PIECE_CLASSES.each_with_index do |piece_class,index|
-      piece_class.new(POSITIONS[index], COLORS[index], self)
+      if piece_class == King
+        COLORS[index] == 'w' ? @wk = piece_class.new([0, 4], 'w', self) : @bk = piece_class.new([7, 4], 'b', self)
+      else
+        piece_class.new(POSITIONS[index], COLORS[index], self)
+      end
     end
   end
 
@@ -63,6 +67,11 @@ class Board
   end
 
   def in_check?(color)
+    pieces = board.flatten.select { |el| !el.nil? }
+    color == 'w' ? king_pos = @wk.position : king_pos = @bk.position
+
+    pieces.each { |piece| return true if piece.moves}
+
   end
 
   def render
