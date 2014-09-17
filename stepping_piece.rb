@@ -12,6 +12,5 @@ class SteppingPiece < Piece
 
     moves.select { |new_pos| self.board[new_pos].nil? ? true : self.board[new_pos].color != self.color }
     #moves.select { |new_pos| self.board[new_pos].nil? ? true : self.board[new_pos].color != self.color }
-
   end
 end

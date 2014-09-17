@@ -14,7 +14,7 @@ class Board
   COLORS = Array.new(16,"w") + Array.new(16,"b")
   PIECE_CLASSES = pieces + Array.new(8,Pawn) + Array.new(8,Pawn) + pieces
 
-  attr_reader :board, :wk, :bk
+  attr_accessor :board, :wk, :bk
 
   def self.create_board
     Array.new(8) { Array.new(8,nil) }
@@ -40,7 +40,7 @@ class Board
     end_pos_object = self[end_pos]
     #check if start and end pos are on board
     unless on_board?(start_pos) && on_board?(end_pos)
-      raise ArgumentError.new "Your positions are not on the board"
+      raise ArgumentError.new "You entered a position that's not on the board"
     end
     #check if start has a piece
     if piece.nil?
@@ -51,10 +51,16 @@ class Board
       raise ArgumentError.new "Invalid end position #{end_pos}"
     end
     #checking pieces move method for array of valid moves
-    move_is_valid = piece.moves.include?(end_pos)
+    move_is_valid = piece.valid_moves.include?(end_pos)
     unless move_is_valid
       raise ArgumentError.new "Your piece cannot move like that"
     end
+
+    take_move(start_pos,end_pos,piece)
+
+  end
+
+  def take_move(start_pos,end_pos,piece)
     #update board
     self[start_pos] = nil
     self[end_pos] = piece
@@ -83,6 +89,25 @@ class Board
       }.join("  ")
     end
     nil
+  end
+
+  def chess_dup
+    new_board = self.dup #dup board object
+    #dup board instance variable (Array of Arrays of pieces objects)
+    new_board.board = self.board.dup
+    new_board.board = new_board.board.map { |row| row.dup }
+    #dup pieces objects (flatten array, and dup each element)
+    new_board.board.flatten.each do |piece|
+      unless piece.nil?
+        new_piece = piece.piece_dup(new_board) #dup pieces, positions, board
+        new_board[piece.position] = new_piece
+      end
+    end
+    #dup wk and bk
+    new_board.wk = new_board[wk.position]
+    new_board.bk = new_board[bk.position]
+
+    new_board
   end
 
   def [](pos)
