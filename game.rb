@@ -31,10 +31,19 @@ class Game
         move = player_hash[turn].take_turn
         raise WrongColor if board[move[0]].color != turn
         board.move(*move)
-      rescue ArgumentError => e
+      rescue OnBoard => e
         puts "Error was #{e.message}"
         retry
+      rescue NoPiece => e
+        puts "#{e.message}"
+        retry
       rescue WrongColor => e
+        puts "#{e.message}"
+        retry
+      rescue InvalidEndPosition => e
+        puts "#{e.message}"
+        retry
+      rescue InvalidMove => e
         puts "#{e.message}"
         retry
       end

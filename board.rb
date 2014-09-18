@@ -22,21 +22,21 @@ class Board
     end_pos_object = self[end_pos]
     #check if start and end pos are on board
     unless on_board?(start_pos) && on_board?(end_pos)
-      raise ArgumentError.new "You entered a position that's not on the board"
+      raise OnBoard.new "You entered a position that's not on the board"
     end
     #check if start has a piece
     if piece.nil?
-      raise ArgumentError.new "There is no piece on #{start_pos} to move"
+      raise NoPiece.new "There is no piece on #{start_pos} to move"
     end
     #check if end is nil (or same color piece)
     unless end_pos_object.nil? || end_pos_object.color != piece.color
-      raise ArgumentError.new "Invalid end position #{end_pos}"
+      raise InvalidEndPosition.new "Invalid end position #{end_pos}"
     end
     #checking pieces move method for array of valid moves
     piece.valid_moves.nil? ? move_is_valid = false : move_is_valid = piece.valid_moves.include?(end_pos)
     #move_is_valid = piece.valid_moves.include?(end_pos) unless valid_moves.nil?
     unless move_is_valid
-      raise ArgumentError.new "Your piece cannot move like that"
+      raise InvalidMove.new "Your piece cannot move like that"
     end
 
     take_move(start_pos,end_pos,piece)
@@ -144,4 +144,16 @@ class Board
     end
   end
 
+end
+
+class OnBoard < StandardError
+end
+
+class NoPiece < StandardError
+end
+
+class InvalidEndPosition < StandardError
+end
+
+class InvalidMove < StandardError
 end
