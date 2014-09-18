@@ -5,68 +5,40 @@ require_relative 'sliding_piece'
 
 class King < SteppingPiece
 
-  MOVE_DIRS = [
-    [0,1],
-    [1,1],
-    [1,0],
-    [1,-1],
-    [0,-1],
-    [-1,-1],
-    [-1,0],
-    [-1,1],
-  ]
+  MOVE_DIRS = Piece::ORTHOGONAL + Piece::DIAGONAL
 
   def symbol
-    self.color == 'w' ? "\u2654" : "\u265A"
+    self.color == 'w' ? "♔" : "♚"
   end
 
 end
 
 class Queen < SlidingPiece
 
-  MOVE_DIRS = [
-    [0,1],
-    [1,1],
-    [1,0],
-    [1,-1],
-    [0,-1],
-    [-1,-1],
-    [-1,0],
-    [-1,1],
-  ]
+  MOVE_DIRS = Piece::ORTHOGONAL + Piece::DIAGONAL
 
   def symbol
-    self.color == 'w' ? "\u2655" : "\u265B"
+    self.color == 'w' ? "♕" : "♛"
   end
 
 end
 
 class Rook < SlidingPiece
 
-  MOVE_DIRS = [
-    [0,1],
-    [1,0],
-    [0,-1],
-    [-1,0]
-  ]
+  MOVE_DIRS = Piece::ORTHOGONAL
 
   def symbol
-    self.color == 'w' ? "\u2656" : "\u265C"
+    self.color == 'w' ? "♖" : "♜"
   end
 
 end
 
 class Bishop < SlidingPiece
 
-  MOVE_DIRS = [
-    [1,1],
-    [1,-1],
-    [-1,-1],
-    [-1,1],
-  ]
+  MOVE_DIRS = Piece::DIAGONAL
 
   def symbol
-    self.color == 'w' ? "\u2657" : "\u265D"
+    self.color == 'w' ? "♗" : "♝"
   end
 
 end
@@ -85,7 +57,7 @@ class Knight < SteppingPiece
   ]
 
   def symbol
-    self.color == 'w' ? "\u2658" : "\u265E"
+    self.color == 'w' ? "♘" : "♞"
   end
 
 end

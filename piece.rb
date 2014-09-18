@@ -1,5 +1,8 @@
 class Piece
 
+  ORTHOGONAL = [[0, 1], [1,  0], [0,  -1], [-1, 0]]
+  DIAGONAL   = [[1, 1], [1, -1], [-1, -1], [-1, 1]]
+
   attr_reader :color
   attr_accessor :position, :board
 

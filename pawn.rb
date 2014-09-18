@@ -1,10 +1,10 @@
 class Pawn < Piece
 
-  WHITE_MOVES = [[1, 0], [1, 1], [1, -1]]
-  BLACK_MOVES = [[-1, 0], [-1, 1], [1, -1]]
+  WHITE_MOVES = [[ 1, 1], [1, -1], [ 1, 0], [ 2, 0]]
+  BLACK_MOVES = [[-1, 1], [1, -1], [-1, 0], [-2, 0]]
 
   def symbol
-    self.color == 'w' ? "\u2659" : "\u265F"
+    self.color == 'w' ? "♙" : "♟"
   end
 
   def moves
@@ -14,8 +14,17 @@ class Pawn < Piece
 
     potential_moves.each do |step|
       new_pos = take_step(curr_pos, step)
-      if step.include?(0) #straight up or down (not attacking)
-        moves << new_pos if self.board[new_pos].nil?
+
+      if step.include?(0) && !(step.include?(2) || step.include?(-2))
+        if self.board[new_pos].nil?
+          moves << new_pos
+        else
+          break #there is a piece in front of the pawn and thus cannot move 2
+        end
+      elsif step.include?(2) || step.include?(-2)
+        if self.board[new_pos].nil? && (self.position[0] == 1 || self.position[0] == 6)
+          moves << new_pos
+        end
       else
         moves << new_pos if !self.board[new_pos].nil? &&
         self.board[new_pos].color != self.color
