@@ -1,5 +1,5 @@
-require 'debugger'
-require_relative 'piece'
+
+require './piece'
 
 class SlidingPiece < Piece #(Queen, Bishop, or Rook)
 

@@ -1,4 +1,4 @@
-require_relative 'piece'
+require './piece'
 
 class SteppingPiece < Piece #(King or Knight)
 

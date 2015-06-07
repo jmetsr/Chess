@@ -1,5 +1,5 @@
-require_relative 'pieces'
-require_relative 'pawn'
+require './pieces'
+require './pawn'
 
 class Board
 
@@ -91,7 +91,7 @@ class Board
     rows = ""
     board.each_with_index do |row, indx|
       index = "#{ indx + 1 } "
-      row_string = row.map { |cell| cell.nil? ? '-' : cell.symbol }.join("  ")
+      row_string = row.map { |cell| cell.nil? ? '❑' : cell.symbol }.join("  ")
       rows += index + row_string + "\n"
     end
     top_row + rows

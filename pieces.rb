@@ -1,7 +1,7 @@
 # coding: utf-8
 
-require_relative 'stepping_piece'
-require_relative 'sliding_piece'
+require './stepping_piece'
+require './sliding_piece'
 
 class King < SteppingPiece
 
