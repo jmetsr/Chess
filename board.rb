@@ -1,6 +1,6 @@
 require './pieces'
 require './pawn'
-
+require 'colorize'
 class Board
 
   PIECE_CLASSES = [ Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook ]
@@ -91,7 +91,9 @@ class Board
     rows = ""
     board.each_with_index do |row, indx|
       index = "#{ indx + 1 } "
-      row_string = row.map { |cell| cell.nil? ? '❑' : cell.symbol }.join("  ")
+
+      row_string = row.map { |cell| cell.nil? ? "❑".colorize(:blue) : cell.symbol }.join("  ")
+
       rows += index + row_string + "\n"
     end
     top_row + rows
