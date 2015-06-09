@@ -1,5 +1,5 @@
 
-require './piece'
+require './lib/pieces/piece'
 
 class SlidingPiece < Piece #(Queen, Bishop, or Rook)
 

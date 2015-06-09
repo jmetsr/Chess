@@ -1,5 +1,5 @@
-require './pieces'
-require './pawn'
+require './lib/pieces/pieces'
+require './lib/pieces/pawn'
 require 'colorize'
 class Board
 

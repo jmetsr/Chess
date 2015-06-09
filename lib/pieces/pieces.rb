@@ -1,7 +1,7 @@
 # coding: utf-8
 
-require './stepping_piece'
-require './sliding_piece'
+require './lib/pieces/stepping_piece'
+require './lib/pieces/sliding_piece'
 
 class King < SteppingPiece
 

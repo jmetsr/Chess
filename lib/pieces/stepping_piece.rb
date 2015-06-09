@@ -1,4 +1,4 @@
-require './piece'
+require './lib/pieces/piece'
 
 class SteppingPiece < Piece #(King or Knight)
 

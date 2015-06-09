@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-require './board'
-require './player'
-require './computer_player'
+require './lib/board'
+require './lib/player'
+
 
 class WrongColor < StandardError
 end
